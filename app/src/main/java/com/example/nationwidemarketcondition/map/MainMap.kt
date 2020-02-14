@@ -2,6 +2,7 @@ package com.example.nationwidemarketcondition.map
 
 import android.content.Context
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import com.naver.maps.map.LocationSource
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.NaverMap
@@ -10,6 +11,7 @@ import com.naver.maps.map.overlay.PathOverlay
 
 class MainMap:OnMapReadyCallback {
     var nMap:NaverMap? = null //맵 객체, UI 이벤트를 다룸
+    var onClicked:MutableLiveData<Boolean> = MutableLiveData()
 //    var markerStartPoint = Marker()
 //    var markerWayPoint = Marker()
 //    var markerGoalPoint = Marker()
@@ -28,8 +30,10 @@ class MainMap:OnMapReadyCallback {
             nMap?.setOnMapClickListener { pointF, coord ->
                 Toast.makeText(context, "${coord.latitude}, ${coord.longitude}",Toast.LENGTH_SHORT).show()
                 println("${coord.latitude}, ${coord.longitude}")
+                onClicked.postValue(true)
             }
         }
+
         listener?.invoke()
     }
 }
